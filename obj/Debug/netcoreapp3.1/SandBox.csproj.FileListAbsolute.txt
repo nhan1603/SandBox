@@ -1,0 +1,13 @@
+D:\project\SandBox\bin\Debug\netcoreapp3.1\SandBox.exe
+D:\project\SandBox\bin\Debug\netcoreapp3.1\SandBox.deps.json
+D:\project\SandBox\bin\Debug\netcoreapp3.1\SandBox.runtimeconfig.json
+D:\project\SandBox\bin\Debug\netcoreapp3.1\SandBox.runtimeconfig.dev.json
+D:\project\SandBox\bin\Debug\netcoreapp3.1\SandBox.dll
+D:\project\SandBox\bin\Debug\netcoreapp3.1\SandBox.pdb
+D:\project\SandBox\obj\Debug\netcoreapp3.1\SandBox.GeneratedMSBuildEditorConfig.editorconfig
+D:\project\SandBox\obj\Debug\netcoreapp3.1\SandBox.AssemblyInfoInputs.cache
+D:\project\SandBox\obj\Debug\netcoreapp3.1\SandBox.AssemblyInfo.cs
+D:\project\SandBox\obj\Debug\netcoreapp3.1\SandBox.csproj.CoreCompileInputs.cache
+D:\project\SandBox\obj\Debug\netcoreapp3.1\SandBox.dll
+D:\project\SandBox\obj\Debug\netcoreapp3.1\SandBox.pdb
+D:\project\SandBox\obj\Debug\netcoreapp3.1\SandBox.genruntimeconfig.cache
