@@ -1,0 +1,2 @@
+# Execute the SandBox.exe and redirect output to output.txt
+Start-Process -FilePath "D:\project\SandBox\bin\Release\netcoreapp3.1\win-x64\publish\SandBox.exe" -RedirectStandardOutput "output.txt" -NoNewWindow -Wait
