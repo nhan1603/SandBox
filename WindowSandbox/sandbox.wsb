@@ -1,0 +1,12 @@
+<Configuration>
+  <Networking>Enable</Networking>
+  <MappedFolders>
+    <MappedFolder>
+      <HostFolder>C:\path\to\your\output\folder</HostFolder>
+      <SandboxFolder>C:\output</SandboxFolder>
+    </MappedFolder>
+  </MappedFolders>
+  <LogonCommand>
+    <Command>cmd.exe /c start /wait C:\output\Hello.exe > C:\output\output.txt</Command>
+  </LogonCommand>
+</Configuration>
