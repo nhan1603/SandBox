@@ -28,11 +28,14 @@ $sandboxFile = Join-Path -Path $hostFolder -ChildPath "sandbox.wsb"
 $executableName = Split-Path $file -Leaf
 
 # Create a batch script to run the executable
+# Exit the sandbox after execution
+# Remain a timeout for ensuring output is done
 $batchContent = @"
 @echo off
 cd C:\output
 "$executableName" > "$output" 2>&1
-exit
+timeout /t 2 /nobreak 
+shutdown /s /t 0
 "@
 
 $batchPath = Join-Path -Path $hostFolder -ChildPath "run.bat"
@@ -101,3 +104,6 @@ do {
 
 # Cleanup
 Remove-Item -Path $batchPath -Force -ErrorAction SilentlyContinue
+Remove-Item -Path $sandboxFile -Force -ErrorAction SilentlyContinue
+
+Write-Host "Execution completed."
