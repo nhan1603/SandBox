@@ -1,0 +1,17 @@
+<Configuration>
+  <Networking>Disable</Networking>
+  <MappedFolders>
+    <MappedFolder>
+      <HostFolder>C:\Users\920322\Workspace\SandBox</HostFolder>
+      <SandboxFolder>C:\output</SandboxFolder>
+      <ReadOnly>false</ReadOnly>
+    </MappedFolder>
+  </MappedFolders>
+  <LogonCommand>
+    <Command>cmd.exe /c C:\output\run.bat</Command>
+  </LogonCommand>
+  <Security>
+    <UserAccountControl>Enabled</UserAccountControl>
+    <RestrictAccessToSystemResources>true</RestrictAccessToSystemResources>
+  </Security>
+</Configuration>
