@@ -28,14 +28,12 @@ $sandboxFile = Join-Path -Path $hostFolder -ChildPath "sandbox.wsb"
 $executableName = Split-Path $file -Leaf
 
 # Create a batch script to run the executable
-# Exit the sandbox after execution
-# Remain a timeout for ensuring output is done
 $batchContent = @"
 @echo off
 cd C:\output
 "$executableName" > "$output" 2>&1
-timeout /t 2 /nobreak 
-shutdown /s /t 0
+timeout /t 2 /nobreak > nul
+echo Done > execution_complete.txt
 "@
 
 $batchPath = Join-Path -Path $hostFolder -ChildPath "run.bat"
@@ -70,8 +68,15 @@ Copy-Item -Path $file -Destination "$hostFolder\$executableName" -Force
 
 # Create the output file
 $resultFilePath = Join-Path -Path $hostFolder -ChildPath $output
+$completionFlag = Join-Path -Path $hostFolder -ChildPath "execution_complete.txt"
+
 if (-not (Test-Path $resultFilePath)) {
     New-Item -Path $resultFilePath -ItemType File -Force | Out-Null
+}
+
+# Remove completion flag if it exists from previous run
+if (Test-Path $completionFlag) {
+    Remove-Item -Path $completionFlag -Force
 }
 
 # Launch the Windows Sandbox
@@ -85,25 +90,30 @@ Write-Host "Waiting for output (timeout: $timeout seconds)..."
 do {
     Start-Sleep -Seconds 5
     $fileContent = Get-Content -Path $resultFilePath -ErrorAction SilentlyContinue
+    $isComplete = Test-Path $completionFlag
     
-    if ($fileContent) {
-        Write-Host "Output detected!"
+    if ($fileContent -and $isComplete) {
         Write-Host "Results saved to: $resultFilePath"
-        Get-Content -Path $resultFilePath
+        # Get-Content -Path $resultFilePath
+
+        # Force close the sandbox silently with no output
+        # taskkill /F /IM WindowsSandboxClient.exe /T >$null 2>&1
+        cmd /c taskkill /F /IM WindowsSandboxClient.exe /T | Out-Null
         break
     }
 
     $elapsedTime = (Get-Date) - $startTime
     if ($elapsedTime.TotalSeconds -gt $timeout) {
         Write-Host "Timeout reached. No output detected."
+        # Force close the sandbox on timeout
+         cmd /c taskkill /F /IM WindowsSandboxClient.exe /T | Out-Null
         break
     }
-
-    Write-Host "Waiting for output... ($([math]::Round($elapsedTime.TotalSeconds))/$timeout seconds elapsed)"
 } while ($true)
 
 # Cleanup
 Remove-Item -Path $batchPath -Force -ErrorAction SilentlyContinue
 Remove-Item -Path $sandboxFile -Force -ErrorAction SilentlyContinue
+Remove-Item -Path $completionFlag -Force -ErrorAction SilentlyContinue
 
 Write-Host "Execution completed."
