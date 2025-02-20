@@ -7,6 +7,30 @@ param (
     [int]$timeout = 120   # Default timeout in seconds
 )
 
+#  THIS SOMEHOW DOES NOT WORK, need to double check
+# Function to check if the program has no argument provided
+# function Test-HasNoArguments {
+#     return ($PSBoundParameters.Count -eq 0)
+# }
+
+# If no parameters provided, launch GUI
+if ($PSBoundParameters.Count -eq 0) {
+    Write-Host $PSBoundParameters.Count
+    # Load GUI script from the same directory as this script
+    $scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
+    $guiPath = Join-Path $scriptPath "gui.ps1"
+    
+    if (Test-Path $guiPath) {
+        & $guiPath
+        exit
+    } else {
+        Write-Host "No parameter found. Exitting the program."
+        exit 1
+    }
+}
+
+
+
 # Validate parameters
 if (-not (Test-Path $file)) {
     Write-Host "The specified file does not exist: $file"
