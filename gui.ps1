@@ -4,7 +4,7 @@ Add-Type -AssemblyName System.Drawing
 # Create the form
 $form = New-Object System.Windows.Forms.Form
 $form.Text = 'Sandbox Execution Tool'
-$form.Size = New-Object System.Drawing.Size(600,400)
+$form.Size = New-Object System.Drawing.Size(600,450)  # Increased height to accommodate new parameter
 $form.StartPosition = 'CenterScreen'
 $form.FormBorderStyle = 'FixedDialog'
 $form.MaximizeBox = $false
@@ -38,6 +38,19 @@ $browseButton.Add_Click({
 })
 $fileGroup.Controls.Add($browseButton)
 
+# Parameters Label
+$paramsLabel = New-Object System.Windows.Forms.Label
+$paramsLabel.Location = New-Object System.Drawing.Point(10,65)
+$paramsLabel.Size = New-Object System.Drawing.Size(100,20)
+$paramsLabel.Text = "Parameters:"
+$fileGroup.Controls.Add($paramsLabel)
+
+# Parameters TextBox
+$paramsTextBox = New-Object System.Windows.Forms.TextBox
+$paramsTextBox.Location = New-Object System.Drawing.Point(110,65)
+$paramsTextBox.Size = New-Object System.Drawing.Size(410,20)
+$fileGroup.Controls.Add($paramsTextBox)
+
 # Output Settings Group
 $outputGroup = New-Object System.Windows.Forms.GroupBox
 $outputGroup.Location = New-Object System.Drawing.Point(20,130)
@@ -63,7 +76,7 @@ $outputGroup.Controls.Add($outputTextBox)
 $folderLabel = New-Object System.Windows.Forms.Label
 $folderLabel.Location = New-Object System.Drawing.Point(10,70)
 $folderLabel.Size = New-Object System.Drawing.Size(100,20)
-$folderLabel.Text = "Host Folder:"
+$folderLabel.Text = "Output Folder:"
 $outputGroup.Controls.Add($folderLabel)
 
 # Host Folder TextBox
@@ -176,6 +189,7 @@ $executeButton.Add_Click({
         file = $fileTextBox.Text
         output = $outputTextBox.Text
         hostFolder = $folderTextBox.Text
+        execParams = $paramsTextBox.Text
         NoNetwork = $networkCheckBox.Checked
         ReadOnly = $readOnlyCheckBox.Checked
         timeout = [int]$timeoutTextBox.Text

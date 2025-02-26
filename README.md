@@ -19,6 +19,12 @@ The following files are included in this submission:
 3. **README.md**:
    - This README file, which provides an overview of the tool, installation instructions, usage guidelines, and details about the contents of the submission.
 
+4. **SandBox Manual.pdf**:
+   - The manual of how to use the SandBox Execution Tools step by step.
+
+5. **SampleFile**:
+   - The folder that contains sample executable for user to test the Sandbox
+
 ## Requirements
 
 - **Windows 10/11**: The tool requires a Windows operating system with Windows Sandbox enabled.
@@ -38,7 +44,7 @@ The following files are included in this submission:
 
 1. **Open PowerShell**:
 
-   - Press `Win + X` and select `Windows PowerShell` or `Windows Terminal`.
+   - Press `Win + X` and select `Windows PowerShell`.
 
 2. **Navigate to the Tool Directory**:
 
@@ -47,10 +53,16 @@ The following files are included in this submission:
      cd C:\path\to\your\tool
      ```
 
-3. **Launch the GUI**:
+3. **Launch the tool with GUI**:
    - Run the GUI script to open the Sandbox Execution Tool:
      ```powershell
-     .\gui.ps1
+     .\Execute.ps1
+     ```
+
+4. **Launch the tool manually**:
+   - Run the script to manually run the Sandbox Execution Tool:
+     ```powershell
+     ..\Execute.ps1 -file "C:\{{pathToYourFolder}}\{{your_executable.exe}}" -execParams "—param1 -param2" -output "{{output_file}}.txt" -hostFolder "C:\{{path\to\your\executableFolder}}" -NoNetwork -timeout 20 
      ```
 
 ## Usage Instructions
@@ -58,6 +70,8 @@ The following files are included in this submission:
 1. **Select an Executable**:
 
    - Click the **Browse** button to select the executable file you want to run.
+
+   - Input the corresponding parameter for the executable if necessary
 
 2. **Specify Output Settings**:
 

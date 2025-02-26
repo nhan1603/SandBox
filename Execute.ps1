@@ -1,7 +1,8 @@
 param (
     [string]$file,        # Path to the executable
     [string]$output,      # Result file name
-    [string]$hostFolder = "C:\Users", #default host folder for the output
+    [string]$hostFolder = "C:\Users", # Default host folder for the output
+    [string]$execParams = "", # Parameters for the executable
     [switch]$NoNetwork,   # Disable network
     [switch]$ReadOnly,    # Restrict file access
     [int]$timeout = 120   # Default timeout in seconds
@@ -13,9 +14,10 @@ param (
 #     return ($PSBoundParameters.Count -eq 0)
 # }
 
+Write-Host $execParams
+
 # If no parameters provided, launch GUI
 if ($PSBoundParameters.Count -eq 0) {
-    Write-Host $PSBoundParameters.Count
     # Load GUI script from the same directory as this script
     $scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
     $guiPath = Join-Path $scriptPath "gui.ps1"
@@ -28,8 +30,6 @@ if ($PSBoundParameters.Count -eq 0) {
         exit 1
     }
 }
-
-
 
 # Validate parameters
 if (-not (Test-Path $file)) {
@@ -55,7 +55,7 @@ $executableName = Split-Path $file -Leaf
 $batchContent = @"
 @echo off
 cd C:\output
-"$executableName" > "$output" 2>&1
+"$executableName" $execParams > "$output" 2>&1
 timeout /t 2 /nobreak > nul
 echo Done > execution_complete.txt
 "@
@@ -92,6 +92,7 @@ Copy-Item -Path $file -Destination "$hostFolder\$executableName" -Force
 
 # Create the output file
 $resultFilePath = Join-Path -Path $hostFolder -ChildPath $output
+$executionFile = Join-Path -Path $hostFolder -ChildPath $executableName
 $completionFlag = Join-Path -Path $hostFolder -ChildPath "execution_complete.txt"
 
 if (-not (Test-Path $resultFilePath)) {
@@ -139,5 +140,6 @@ do {
 Remove-Item -Path $batchPath -Force -ErrorAction SilentlyContinue
 Remove-Item -Path $sandboxFile -Force -ErrorAction SilentlyContinue
 Remove-Item -Path $completionFlag -Force -ErrorAction SilentlyContinue
+Remove-Item -Path $executionFile -Force -ErrorAction SilentlyContinue
 
 Write-Host "Execution completed."
