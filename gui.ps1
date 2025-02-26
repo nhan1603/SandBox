@@ -70,7 +70,7 @@ $outputGroup.Controls.Add($folderLabel)
 $folderTextBox = New-Object System.Windows.Forms.TextBox
 $folderTextBox.Location = New-Object System.Drawing.Point(110,70)
 $folderTextBox.Size = New-Object System.Drawing.Size(310,20)
-$folderTextBox.Text = "C:\Users\920322\Workspace\SandBox"
+$folderTextBox.Text = "C:\Users\"
 $outputGroup.Controls.Add($folderTextBox)
 
 # Browse Folder Button
@@ -166,7 +166,7 @@ $executeButton.Add_Click({
 
     $fileName = Split-Path -Path $fileTextBox.Text -Leaf
 
-    if ($fileName -ceq "Execute2.ps1" -or $fileName -ceq "gui.ps1") {
+    if ($fileName -ceq "Execute.ps1" -or $fileName -ceq "gui.ps1") {
         [System.Windows.Forms.MessageBox]::Show("Nah bro, don't do this.", "Validation Error")
         return
     }
@@ -186,7 +186,7 @@ $executeButton.Add_Click({
 
     try {
         # Execute the sandbox script with parameters
-        & ".\Execute2.ps1" @params
+        & ".\Execute.ps1" @params
 
         [System.Windows.Forms.MessageBox]::Show("Execution completed successfully!", "Success")
     }

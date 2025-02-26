@@ -232,3 +232,4 @@ D:\project\SandBox\obj\Release\netcoreapp3.1\win-x64\SandBox.csproj.Up2Date
 D:\project\SandBox\obj\Release\netcoreapp3.1\win-x64\SandBox.dll
 D:\project\SandBox\obj\Release\netcoreapp3.1\win-x64\SandBox.pdb
 D:\project\SandBox\obj\Release\netcoreapp3.1\win-x64\SandBox.genruntimeconfig.cache
+D:\project\SandBox\obj\Release\netcoreapp3.1\win-x64\SandBox.sourcelink.json

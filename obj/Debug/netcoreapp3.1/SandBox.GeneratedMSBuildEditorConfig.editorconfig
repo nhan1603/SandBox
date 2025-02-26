@@ -1,4 +1,8 @@
 is_global = true
+build_property.EnableAotAnalyzer = false
+build_property.EnableSingleFileAnalyzer = false
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
 build_property.RootNamespace = SandBox
 build_property.ProjectDir = d:\project\SandBox\
 build_property.EnableComHosting = 

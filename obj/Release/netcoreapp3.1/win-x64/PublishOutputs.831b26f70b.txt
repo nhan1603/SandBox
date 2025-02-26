@@ -1,0 +1,2 @@
+D:\project\SandBox\publish\SandBox.pdb
+D:\project\SandBox\publish\SandBox.exe
