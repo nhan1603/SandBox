@@ -60,6 +60,11 @@ The following files are included in this submission:
 1. **Open PowerShell**:
    - Press `Win + X` and select `Windows PowerShell`
 
+   - Execute command to enable script execution
+     ```powershell
+     set-executionpolicy remotesigned
+     ```
+
 2. **Navigate to the Tool Directory**:
    - Use the `cd` command to change to the directory where the scripts are located:
      ```powershell

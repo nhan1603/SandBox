@@ -42,20 +42,6 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
-          "dependencies": {
-            "Microsoft.NET.ILLink.Analyzers": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[7.0.100-1.23401.1, )",
-              "autoReferenced": true
-            },
-            "Microsoft.NET.ILLink.Tasks": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[7.0.100-1.23401.1, )",
-              "autoReferenced": true
-            }
-          },
           "imports": [
             "net461",
             "net462",
@@ -73,10 +59,6 @@
               "version": "[3.1.10, 3.1.10]"
             },
             {
-              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[3.1.32, 3.1.32]"
-            },
-            {
               "name": "Microsoft.NETCore.App.Host.win-x64",
               "version": "[3.1.32, 3.1.32]"
             },
@@ -85,16 +67,8 @@
               "version": "[3.1.0, 3.1.0]"
             },
             {
-              "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[3.1.32, 3.1.32]"
-            },
-            {
               "name": "Microsoft.WindowsDesktop.App.Ref",
               "version": "[3.1.0, 3.1.0]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[3.1.32, 3.1.32]"
             }
           ],
           "frameworkReferences": {
@@ -103,11 +77,6 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.405\\RuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
         }
       }
     }

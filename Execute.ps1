@@ -14,8 +14,8 @@ param (
 #     return ($PSBoundParameters.Count -eq 0)
 # }
 
-Write-Host $execParams
-
+# Parameter count: https://stackoverflow.com/questions/59657293/how-to-check-number-of-arguments-in-powershell
+# https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_automatic_variables?view=powershell-7.5#psboundparameters
 # If no parameters provided, launch GUI
 if ($PSBoundParameters.Count -eq 0) {
     # Load GUI script from the same directory as this script
@@ -31,6 +31,8 @@ if ($PSBoundParameters.Count -eq 0) {
     }
 }
 
+# Check if the file is valid: 
+# https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/test-path?view=powershell-5.1
 # Validate parameters
 if (-not (Test-Path $file)) {
     Write-Host "The specified file does not exist: $file"
@@ -38,20 +40,26 @@ if (-not (Test-Path $file)) {
 }
 
 if (-not (Test-Path $hostFolder)) {
+    # Write into console
+    # https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/write-host?view=powershell-5.1
     Write-Host "The specified host folder does not exist: $hostFolder"
     exit 1
 }
 
+# If condition: https://learn.microsoft.com/en-us/powershell/scripting/learn/deep-dives/everything-about-if?view=powershell-7.5
 # Network setting
 $networkSetting = if ($NoNetwork) { 'Disable' } else { 'Enable' }
 
 # Read policy setting
 $readPolicy = if ($ReadOnly) { 'true' } else { 'false' }
 
+# File path processing: https://stackoverflow.com/questions/35813186/extract-the-filename-from-a-path
 $sandboxFile = Join-Path -Path $hostFolder -ChildPath "sandbox.wsb"
 $executableName = Split-Path $file -Leaf
 
 # Create a batch script to run the executable
+# Syntax to run the executable and out put into the file
+# Ref: https://ss64.com/nt/syntax-redirection.html
 $batchContent = @"
 @echo off
 cd C:\output
@@ -63,6 +71,7 @@ echo Done > execution_complete.txt
 $batchPath = Join-Path -Path $hostFolder -ChildPath "run.bat"
 $batchContent | Set-Content -Path $batchPath -Force -Encoding ASCII
 
+# Sample config: https://techcommunity.microsoft.com/blog/windowsosplatform/windows-sandbox---config-files/354902
 # Create the sandbox configuration content
 $sandboxConfig = @"
 <Configuration>
@@ -77,10 +86,6 @@ $sandboxConfig = @"
   <LogonCommand>
     <Command>cmd.exe /c C:\output\run.bat</Command>
   </LogonCommand>
-  <Security>
-    <UserAccountControl>Enabled</UserAccountControl>
-    <RestrictAccessToSystemResources>true</RestrictAccessToSystemResources>
-  </Security>
 </Configuration>
 "@
 
@@ -113,7 +118,9 @@ $startTime = Get-Date
 Write-Host "Waiting for output (timeout: $timeout seconds)..."
 
 do {
+    # Wait 5 second to check for status
     Start-Sleep -Seconds 5
+    # Check if file content is available
     $fileContent = Get-Content -Path $resultFilePath -ErrorAction SilentlyContinue
     $isComplete = Test-Path $completionFlag
     
@@ -123,6 +130,8 @@ do {
 
         # Force close the sandbox silently with no output
         # taskkill /F /IM WindowsSandboxClient.exe /T >$null 2>&1
+        # https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/taskkill
+        # Prevent the taskkill result from the console: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/out-null
         cmd /c taskkill /F /IM WindowsSandboxClient.exe /T | Out-Null
         break
     }
@@ -136,7 +145,7 @@ do {
     }
 } while ($true)
 
-# Cleanup
+# Cleanup the preparation after finishing
 Remove-Item -Path $batchPath -Force -ErrorAction SilentlyContinue
 Remove-Item -Path $sandboxFile -Force -ErrorAction SilentlyContinue
 Remove-Item -Path $completionFlag -Force -ErrorAction SilentlyContinue
